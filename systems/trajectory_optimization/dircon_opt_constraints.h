@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory.h>
+#include <memory>
 #include "dircon_kinematic_data.h"
 #include "dircon_kinematic_data_set.h"
 #include "drake/common/drake_copyable.h"

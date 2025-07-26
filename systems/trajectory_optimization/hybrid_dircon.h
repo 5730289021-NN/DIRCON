@@ -1,6 +1,6 @@
 #pragma once
 
-#include <memory.h>
+#include <memory>
 #include "dircon_opt_constraints.h"
 #include "dircon_options.h"
 #include "dircon_kinematic_data.h"
