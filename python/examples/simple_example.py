@@ -7,13 +7,21 @@ for trajectory optimization of a planar walking robot.
 """
 
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')  # Use non-interactive backend
 import matplotlib.pyplot as plt
 import sys
 import os
 
 # Add the dircon_casadi module to path
-sys.path.append('..')
-from dircon_casadi import Dircon, PlanarWalker
+sys.path.append('../')
+sys.path.append('.')
+try:
+    from dircon_casadi import Dircon, PlanarWalker
+except ImportError:
+    sys.path.append('../dircon_casadi')
+    from dircon import Dircon
+    from planar_walker import PlanarWalker
 
 
 def balance_example():
@@ -91,7 +99,10 @@ def balance_example():
                        'ẋ', 'ż', 'θ̇', 'θ̇_L', 'θ̇_H', 'θ̇_R']
         control_labels = ['τ_hip', 'τ_left', 'τ_right']
         
+        print("Plotting trajectory results...")
         dircon.plot_trajectory(state_labels, control_labels)
+        plt.savefig('/tmp/trajectory_results.png')
+        print("Saved trajectory plot to /tmp/trajectory_results.png")
         
         # Visualize robot motion
         t, X, U = dircon.get_trajectory()
@@ -122,7 +133,8 @@ def visualize_motion(walker, t, X):
     
     plt.suptitle('Robot Motion Sequence', fontsize=14)
     plt.tight_layout()
-    plt.show()
+    plt.savefig('/tmp/motion_sequence.png')
+    print("Saved motion sequence to /tmp/motion_sequence.png")
 
 
 def test_robot_model():
@@ -157,11 +169,12 @@ def test_robot_model():
         right_pos = right_foot(q)
         
         print(f"{name}:")
-        print(f"  Left foot:  [{left_pos[0]:.3f}, {left_pos[1]:.3f}]")
-        print(f"  Right foot: [{right_pos[0]:.3f}, {right_pos[1]:.3f}]")
+        print(f"  Left foot:  [{float(left_pos[0]):.3f}, {float(left_pos[1]):.3f}]")
+        print(f"  Right foot: [{float(right_pos[0]):.3f}, {float(right_pos[1]):.3f}]")
     
     plt.tight_layout()
-    plt.show()
+    plt.savefig('/tmp/robot_configurations.png')
+    print("Saved robot configurations to /tmp/robot_configurations.png")
 
 
 def main():
